@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.navigation.fragment.findNavController
 
 class MainFragment : Fragment() {
 
@@ -17,13 +18,8 @@ class MainFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_main, container, false)
 
         val prof_but = view.findViewById<ImageButton>(R.id.profile_Button)
-        prof_but.setOnClickListener{
-            val newFragment = ProfileFragment()
-            val fragmentManager = fragmentManager
-            requireFragmentManager().beginTransaction()
-                .replace(R.id.navigationfragment, newFragment)
-                .addToBackStack(null)
-                .commit()
+        prof_but.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_profileFragment)
         }
 
         return view
