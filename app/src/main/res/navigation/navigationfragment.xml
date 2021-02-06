@@ -37,4 +37,17 @@
             android:id="@+id/action_mainFragment_to_detailFragment2"
             app:destination="@id/detailFragment2" />
     </fragment>
+    <fragment android:id="@+id/registerFragment" >
+        <action
+            android:id="@+id/action_registerFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment android:id="@+id/updateFragment" >
+        <action
+            android:id="@+id/action_updateFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
 </navigation>

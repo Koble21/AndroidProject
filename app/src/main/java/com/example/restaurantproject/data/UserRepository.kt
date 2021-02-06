@@ -8,4 +8,15 @@ class UserRepository(private val userDao: UserDao) {
     suspend fun addUser(user: User){
         userDao.addUser(user)
     }
+    fun deleteTheUsers(){
+        userDao.deleteTheUsers()
+    }
+
+    fun readUserData(): LiveData<User> {
+        return userDao.readUserData()
+    }
+
+    fun updateUserDatas(name: String, address: String, email: String, phone: String, image: ByteArray){
+        userDao.updateUserDatas(name,address, email, phone, image)
+    }
 }

@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.media.Image
 import android.os.Build
 import android.os.Bundle
@@ -19,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.restaurantproject.data.User
 import com.example.restaurantproject.data.UserViewModel
 import com.google.android.material.snackbar.Snackbar
+import java.io.ByteArrayOutputStream
 
 
 class ProfileFragment : Fragment() {
@@ -29,6 +32,7 @@ class ProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view= inflater.inflate(R.layout.fragment_profile, container, false)
+
         mUserViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         val chooseB=view.findViewById<Button>(R.id.chooseButton)
         val image=view.findViewById<ImageView>(R.id.imageChoosed)
@@ -63,13 +67,23 @@ class ProfileFragment : Fragment() {
                 Snackbar.make(this.requireView(), "Fill the fields correctly!", Snackbar.LENGTH_SHORT).show()
             else
             {
-                val user = User(0, name.toString(), address.toString(), number.toString(), email.toString())
+                val picture:ByteArray=imageViewToByte(image)
+
+                val user = User(0, name.text.toString(), address.text.toString(), number.text.toString(), email.text.toString(),picture)
+                mUserViewModel.deleteTheUsers()
                 mUserViewModel.addUser(user)
-                Snackbar.make(this.requireView(), "Data successfully added to database!", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(this.requireView(), "Data successfully added :D !", Snackbar.LENGTH_SHORT).show()
             }
         }
         return view
 
+    }
+    private fun imageViewToByte(image: ImageView): ByteArray {
+        val bitmap = (image.drawable as BitmapDrawable).bitmap
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
+
+        return stream.toByteArray()
     }
 
     private fun pickImageFromGallery() {
