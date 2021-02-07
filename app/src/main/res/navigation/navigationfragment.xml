@@ -5,12 +5,15 @@
     android:id="@+id/navigationfragment"
     app:startDestination="@id/mainFragment">
     <fragment
-        android:id="@+id/detailFragment2"
-        android:name="com.example.restaurantproject.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" >
+        android:id="@+id/mainFragment"
+        android:name="com.example.restaurantproject.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
         <action
-            android:id="@+id/action_detailFragment2_to_profileFragment"
+            android:id="@+id/action_mainFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
     <fragment
@@ -19,25 +22,20 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_profileFragment_to_detailFragment2"
-            app:destination="@id/detailFragment2" />
-        <action
             android:id="@+id/action_profileFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_updateFragment"
+            app:destination="@id/updateFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.example.restaurantproject.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
-        <action
-            android:id="@+id/action_mainFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_detailFragment2"
-            app:destination="@id/detailFragment2" />
-    </fragment>
-    <fragment android:id="@+id/registerFragment" >
+        android:id="@+id/registerFragment"
+        android:name="com.example.restaurantproject.registerFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -45,9 +43,28 @@
             android:id="@+id/action_registerFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
-    <fragment android:id="@+id/updateFragment" >
+    <fragment
+        android:id="@+id/updateFragment"
+        android:name="com.example.restaurantproject.updateFragment"
+        android:label="fragment_update"
+        tools:layout="@layout/fragment_update" >
         <action
             android:id="@+id/action_updateFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_updateFragment_to_profileFragment2"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_updateFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.restaurantproject.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <action
+            android:id="@+id/action_detailFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 </navigation>
