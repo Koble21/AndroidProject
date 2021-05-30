@@ -7,8 +7,10 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,13 +22,16 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.restaurantproject.data.User
 import com.example.restaurantproject.data.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 import java.io.ByteArrayOutputStream
+import java.io.IOException
 
 class updateFragment :  Fragment() {
     private lateinit var mUserViewModel: UserViewModel
+    private lateinit var image:ImageView
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -60,7 +65,7 @@ class updateFragment :  Fragment() {
             }
         }
 
-        val image=view.findViewById<ImageView>(R.id.picChoosed)
+        image=view.findViewById<ImageView>(R.id.picChoosed)
         val insert=view.findViewById<Button>(R.id.updateButton)
         val name = view.findViewById<EditText>(R.id.updateName)
         val address = view.findViewById<EditText>(R.id.updatePostalAddress)
@@ -133,10 +138,50 @@ class updateFragment :  Fragment() {
         }
     }
 
+    // processing and uploading selected image to the database
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val image = view?.findViewById<ImageView>(R.id.imageProfile)
-        if(resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
-            image?.setImageURI(data?.data)
+        //super.onActivityResult(requestCode, resultCode, data)
+        //super method removed
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 1000 && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+                // getting the image uri
+                val returnUri: Uri? = data.data
+
+                // converting image to bitmap
+                val bitmapImage =
+                        MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, returnUri)
+
+                // converting bitmap to bytearray
+                val imageByteArray = convertBitmapToByteArray(bitmapImage)
+
+                if(imageByteArray != null) {
+
+                    // load image in profilePic imageview
+                    view?.post {
+                        Glide.with(image.context).load(imageByteArray)
+                                .placeholder(R.drawable.cheflogo)
+                                .error(R.drawable.cheflogo)
+                                .into(image)
+                    }
+                }
+            }
         }
     }
+
+    // converting bitmap to bytearray
+    fun convertBitmapToByteArray(bitmap: Bitmap): ByteArray? {
+        var baos: ByteArrayOutputStream? = null
+        return try {
+            baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 35, baos)
+            baos.toByteArray()
+        } finally {
+            if (baos != null) {
+                try {
+                    baos.close()
+                } catch (e: IOException) { }
+            }
+        }
+    }
+
 }

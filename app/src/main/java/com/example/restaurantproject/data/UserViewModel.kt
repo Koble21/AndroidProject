@@ -33,9 +33,10 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         return repository.readUserData()
     }
 
-    fun updateUserDatas(name: String, address: String, email: String, phone: String, image: ByteArray){
+   /* fun updateUserDatas(name: String, address: String, email: String, phone: String, image: ByteArray){
         viewModelScope.launch(Dispatchers.IO){
             repository.updateUserDatas(name, address, email, phone, image)
         }
-    }
+    }*/
+    // -vegul nem hasznaltam fel
 }
